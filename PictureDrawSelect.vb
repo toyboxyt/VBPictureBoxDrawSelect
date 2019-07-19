@@ -5,11 +5,11 @@ Public Class PictureDrawSelect
     Inherits PictureBox
     Private bmp As Bitmap '描画領域
     Private parentControl As Control '親コントロール PictureBoxを想定
-    Private Property dbl_ShotSizeW_mm As Double = 10.0
-    Private Property dbl_ShotSizeH_mm As Double = 10.0
+    Private Property dSikakuSizeW As Double = 10.0
+    Private Property dSikakuSizeH As Double = 10.0
     Private Property Zoom As Double
-    Private dutSizeX As Double
-    Private dutSizeY As Double
+    Private rectSizeX As Double
+    Private rectSizeY As Double
 #Region "プロパティ"
     Private Property Color_Selection1 As Color = Color.GreenYellow
     Public Property MapSize As Size
@@ -23,31 +23,31 @@ Public Class PictureDrawSelect
 #End Region
 
 
-    Sub New(ByRef in_parentControl As Control, ByVal in_dShotSizeW As Double, ByVal in_dShotSizeH As Double, ByVal in_Zoom As Double)
+    Sub New(ByRef in_parentControl As Control, ByVal in_dSikakuSizeW As Double, ByVal in_dSikakuSizeH As Double, ByVal in_Zoom As Double)
         parentControl = in_parentControl
-        SetShotSize(in_dShotSizeW, in_dShotSizeH)
+        SetSikakuSize(in_dSikakuSizeW, in_dSikakuSizeH)
         SetZoom(in_Zoom)
-        UpdateDutSize()
+        UpdaterectSize()
     End Sub
 
-    Private Sub UpdateDutSize()
-        dutSizeX = dbl_ShotSizeW_mm * Zoom
-        dutSizeY = dbl_ShotSizeH_mm * Zoom
+    Private Sub UpdaterectSize()
+        rectSizeX = dSikakuSizeW * Zoom
+        rectSizeY = dSikakuSizeH * Zoom
     End Sub
 
-    Public Sub SetShotSize(ByVal in_dShotSizeW As Double, ByVal in_dShotSizeH As Double)
-        dbl_ShotSizeH_mm = in_dShotSizeH
-        dbl_ShotSizeW_mm = in_dShotSizeW
+    Public Sub SetSikakuSize(ByVal in_dSikakuSizeW As Double, ByVal in_dSikakuSizeH As Double)
+        dSikakuSizeH = in_dSikakuSizeH
+        dSikakuSizeW = in_dSikakuSizeW
     End Sub
     Public Sub SetZoom(ByVal in_Zoom As Double)
         Zoom = in_Zoom
     End Sub
 
-    Public Sub SetUpdateShotDutSize(ByVal in_size As Size, ByVal in_dShotSizeW As Double, ByVal in_dShotSizeH As Double, ByVal in_Zoom As Double)
-        SetShotSize(in_dShotSizeW, in_dShotSizeH)
+    Public Sub SetUpdateSikakurectSize(ByVal in_size As Size, ByVal in_dSikakuSizeW As Double, ByVal in_dSikakuSizeH As Double, ByVal in_Zoom As Double)
+        SetSikakuSize(in_dSikakuSizeW, in_dSikakuSizeH)
         SetZoom(in_Zoom)
         MapSize = in_size
-        UpdateDutSize()
+        UpdaterectSize()
     End Sub
 
     Private Sub InitializeComponent()
@@ -136,8 +136,8 @@ Public Class PictureDrawSelect
 
                 Dim kX As Double, kY As Double
 
-                kX = dutSizeX
-                kY = dutSizeY
+                kX = rectSizeX
+                kY = rectSizeY
 
                 fx1 = RawSelectFirst.X / kX
                 fy1 = RawSelectFirst.Y / kY
@@ -170,7 +170,6 @@ Public Class PictureDrawSelect
                 Dim h_ As Integer = Math.Abs(Select1.Y - Select2.Y)
 
                 g.DrawRectangle(pen1, Select1.X, Select1.Y, w_, h_)
-                'bmp_Selection1.MakeTransparent(Color_Transparent)
 
                 Me.Image = bmp
             Catch ex As Exception
